@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MenuEditor.Model
+namespace MenuEditor.Models
 {
-    class ModalDialogModel
+    interface IForm
     {
+        public string Title { get; set; }
+
+        public string Content { get; set; }
     }
 }

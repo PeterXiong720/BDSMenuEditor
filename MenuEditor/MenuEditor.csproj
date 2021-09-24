@@ -10,4 +10,10 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="ViewMdoels\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
 </Project>
