@@ -13,8 +13,28 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         
         mc:Ignorable="d"
-        Title="MenuEditor" Height="450" Width="800">
+        Title="MenuEditor" Height="480" Width="680">
     <Grid>
-        
+        <DockPanel LastChildFill="True">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Content="保存" Width="60" Margin="5"/>
+                    <Button Content="加载" Width="60" Margin="5"/>
+                    <TextBox AllowDrop="True"/>
+                </StackPanel>
+            </Grid>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </DockPanel>
     </Grid>
+
 </Window>
