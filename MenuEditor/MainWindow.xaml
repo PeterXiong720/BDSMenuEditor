@@ -13,20 +13,97 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         
         mc:Ignorable="d"
-        Title="MenuEditor" Height="480" Width="680">
+        Title="MenuEditor" Height="600" Width="880">
     <Grid>
         <DockPanel LastChildFill="True">
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button Content="保存" Width="60" Margin="5"/>
-                    <Button Content="加载" Width="60" Margin="5"/>
-                    <TextBox AllowDrop="True"/>
-                </StackPanel>
-            </Grid>
+            <Menu DockPanel.Dock="Top" IsMainMenu="True" Background="#FF515151">
+                <MenuItem Header="_文件">
+                    <MenuItem
+                        Header="打开"
+                        InputGestureText="Ctrl+O"/>
+
+                    <MenuItem
+                        Header="新建"
+                        InputGestureText="Ctrl+K+O"/>
+
+                    <Separator/>
+                    
+                    <MenuItem
+                        Header="保存"
+                        InputGestureText="Ctrl+S"
+                        Icon="{materialDesign:PackIcon Kind=ContentSave}">
+                    </MenuItem>
+
+                    <MenuItem Header="另存为.."
+                        InputGestureText="Ctrl+Shift+S"/>
+
+                    <MenuItem
+                        Header="关闭"
+                        Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>
+
+                    <MenuItem Header="关闭编辑器"
+                        InputGestureText="Alt+F4"/>
+
+                    <Separator/>
+
+                    <MenuItem
+                        Header="自动保存"
+                        IsCheckable="True"
+                        IsChecked="True"/>
+
+                    <MenuItem
+                        Header="暂时没想到"
+                        IsCheckable="True"/>
+
+                    <MenuItem
+                        Header="Dig Deeper"
+                        InputGestureText="Ctrl+D">
+                        <MenuItem
+                            Header="Enlightenment?"
+                            IsCheckable="True"/>
+                        <MenuItem
+                            Header="Disappointment"
+                            IsCheckable="True"/>
+                    </MenuItem>
+
+                    <MenuItem
+                        Header="Look Deeper"
+                        InputGestureText="Ctrl+D">
+                        <MenuItem Header="Plain"/>
+                        <MenuItem Header="Ice Cream"/>
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="_编辑">
+                    <MenuItem
+                        Header="_剪切"
+                        Command="Cut"
+                        Icon="{materialDesign:PackIcon Kind=ContentCut}"/>
+
+                    <MenuItem
+                        Header="_复制"
+                        Command="Copy"
+                        Icon="{materialDesign:PackIcon Kind=ContentCopy}"/>
+
+                    <MenuItem
+                        Header="_粘贴"
+                        Command="Paste"
+                        Icon="{materialDesign:PackIcon Kind=ContentPaste}"/>
+                </MenuItem>
+                
+                <MenuItem Header="_帮助">
+                    <MenuItem
+                        Header="_教程"
+                        Icon="{materialDesign:PackIcon Kind=LearnOutline}"/>
+
+                    <Separator/>
+
+                    <MenuItem
+                        Header="_关于"
+                        Icon="{materialDesign:PackIcon Kind=About}"/>
+
+                </MenuItem>
+            </Menu>
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
