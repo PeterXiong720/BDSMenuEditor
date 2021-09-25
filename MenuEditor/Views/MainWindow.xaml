@@ -4,19 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MenuEditor"
+        xmlns:viewmodels="clr-namespace:MenuEditor.ViewModels" 
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
         
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        
         mc:Ignorable="d"
         Title="MenuEditor" Height="600" Width="880">
     <Grid>
         <DockPanel LastChildFill="True">
-            <Menu DockPanel.Dock="Top" IsMainMenu="True" Background="#FF515151">
+            <Menu 
+                d:DataContext="{d:DesignInstance Type=viewmodels:TopMenuViewModel}"
+                DockPanel.Dock="Top" 
+                IsMainMenu="True" 
+                Background="#FF515151">
                 <MenuItem Header="_文件">
                     <MenuItem
                         Header="打开"
@@ -39,6 +46,7 @@
 
                     <MenuItem
                         Header="关闭"
+                        InputGestureText="Ctrl+E"
                         Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>
 
                     <MenuItem Header="关闭编辑器"
@@ -49,7 +57,7 @@
                     <MenuItem
                         Header="自动保存"
                         IsCheckable="True"
-                        IsChecked="True"/>
+                        IsChecked="{Binding AutoSave}"/>
 
                     <MenuItem
                         Header="暂时没想到"
@@ -104,12 +112,41 @@
 
                 </MenuItem>
             </Menu>
+            <TabControl
+                DockPanel.Dock="Left"
+                Style="{StaticResource MaterialDesignNavigatilRailTabControl}" 
+                materialDesign:ColorZoneAssist.Mode="Standard"
+                materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                <TabItem >
+                    <TabItem.Header>
+                        <StackPanel Height="auto" Width="auto">
+                            <materialDesign:PackIcon Kind="Edit" Width="24" Height="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="编辑" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
+                
+                <TabItem >
+                    <TabItem.Header>
+                        <StackPanel Height="auto" Width="auto">
+                            <materialDesign:PackIcon Kind="Folder" Width="24" Height="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="全部文件" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid  Width="150">
+                        <Border Background="#FF515151">
+                            
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Button Content="参照物"/>
             </Grid>
         </DockPanel>
     </Grid>

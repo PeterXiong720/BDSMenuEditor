@@ -8,12 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="ViewMdoels\" />
-    <Folder Include="Views\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
 
 </Project>
