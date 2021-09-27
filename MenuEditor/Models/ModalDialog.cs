@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MenuEditor.Model
+namespace MenuEditor.Models
 {
     public class ModalDialog: Models.IForm
     {
@@ -15,6 +15,8 @@ namespace MenuEditor.Model
             this.Button1 = button1;
             this.Button2 = button2;
         }
+
+        public string FileName { get; set; }
 
         private string title;
         public string Title

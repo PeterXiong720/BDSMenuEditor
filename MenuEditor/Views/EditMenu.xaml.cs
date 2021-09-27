@@ -1,6 +1,4 @@
-﻿using MenuEditor.Services;
-using MenuEditor.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MenuEditor
+namespace MenuEditor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// EditMenu.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditMenu : UserControl
     {
-        public MainWindow()
+        public EditMenu()
         {
             InitializeComponent();
-            var viewmodel = new MainWindowViewModel();
-            this.DataContext = viewmodel;
-            this.TopMenu.DataContext = viewmodel.TopMenu;
         }
     }
 }

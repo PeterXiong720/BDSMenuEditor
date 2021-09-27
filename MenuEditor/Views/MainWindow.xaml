@@ -19,11 +19,12 @@
         Title="MenuEditor" Height="600" Width="880">
     <Grid>
         <DockPanel LastChildFill="True">
-            <Menu 
-                d:DataContext="{d:DesignInstance Type=viewmodels:TopMenuViewModel}"
+            <Menu x:Name="TopMenu"
+                d:DataContext="{Binding TopMenu}"
                 DockPanel.Dock="Top" 
                 IsMainMenu="True" 
-                Background="#FF515151">
+                Background="#FF515151"
+                Height="auto">
                 <MenuItem Header="_文件">
                     <MenuItem
                         Header="打开"
@@ -34,15 +35,13 @@
                         InputGestureText="Ctrl+K+O"/>
 
                     <Separator/>
-                    
+
                     <MenuItem
                         Header="保存"
                         InputGestureText="Ctrl+S"
-                        Icon="{materialDesign:PackIcon Kind=ContentSave}">
+                        Icon="{materialDesign:PackIcon Kind=ContentSave}"
+                        Command="{Binding SaveCommand}">
                     </MenuItem>
-
-                    <MenuItem Header="另存为.."
-                        InputGestureText="Ctrl+Shift+S"/>
 
                     <MenuItem
                         Header="关闭"
@@ -57,20 +56,16 @@
                     <MenuItem
                         Header="自动保存"
                         IsCheckable="True"
-                        IsChecked="{Binding AutoSave}"/>
+                        IsChecked="{Binding AutoSave,Mode=TwoWay}"/>
 
                     <MenuItem
-                        Header="暂时没想到"
-                        IsCheckable="True"/>
-
-                    <MenuItem
-                        Header="Dig Deeper"
+                        Header="最近打开"
                         InputGestureText="Ctrl+D">
                         <MenuItem
-                            Header="Enlightenment?"
+                            Header="测试0"
                             IsCheckable="True"/>
                         <MenuItem
-                            Header="Disappointment"
+                            Header="测试1"
                             IsCheckable="True"/>
                     </MenuItem>
 
@@ -130,13 +125,28 @@
                     <TabItem.Header>
                         <StackPanel Height="auto" Width="auto">
                             <materialDesign:PackIcon Kind="Folder" Width="24" Height="24" HorizontalAlignment="Center"/>
-                            <TextBlock Text="全部文件" HorizontalAlignment="Center"/>
+                            <TextBlock Text="全部菜单" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid  Width="150">
-                        <Border Background="#FF515151">
-                            
-                        </Border>
+                    <Grid  Width="180" Background="#FF515151">
+                        <ListBox ItemsSource="{Binding MenuCollection}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card
+                                        Background="{DynamicResource PrimaryHueDarkBrush}"
+                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                        Width="200"
+                                        Padding="8"
+                                        UniformCornerRadius="6">
+                                        <TextBox
+                                            Grid.Column="1"
+                                            Grid.Row="4"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding FileName,Mode=TwoWay}"/>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                 </TabItem>
 

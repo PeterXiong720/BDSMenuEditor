@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MenuEditor.Model
+namespace MenuEditor.Models
 {
     public class Page : Models.IForm
     {
@@ -20,6 +20,8 @@ namespace MenuEditor.Model
             this.Content = content;
             this.Buttons = buttons;
         }
+
+        public string FileName { get; set; }
 
         private string title;
         public string Title

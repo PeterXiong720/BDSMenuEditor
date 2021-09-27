@@ -26,14 +26,16 @@ namespace MenuEditor.Services
 
         public bool SaveData<TModel>(string path, TModel value)
         {
-            using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            if (value == null)
             {
-                if (value == null)
-                {
-                    return false;
-                }
+                return false;
+            }
+
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
                 string json = JsonConvert.SerializeObject(value);
-                fs.Write(Encoding.Default.GetBytes(json));
+                sw.AutoFlush = true;
+                sw.Write(json);
                 return true;
             }
         }

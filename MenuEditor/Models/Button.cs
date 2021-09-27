@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MenuEditor.Model
+namespace MenuEditor.Models
 {
     public class Button
     {
