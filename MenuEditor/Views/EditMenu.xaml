@@ -5,8 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MenuEditor.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            Background="{DynamicResource MaterialDesignPaper}"
+            TextElement.FontWeight="Medium"
+            TextElement.FontSize="14"
+            FontFamily="{materialDesign:MaterialDesignFont}"
+             
+            d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Orientation="Vertical">
+            <TextBox
+                Margin="5"
+                materialDesign:HintAssist.Hint="标题"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                VerticalAlignment="Center" />
+            <TextBox
+                Margin="5"
+                materialDesign:HintAssist.Hint="内容"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                VerticalAlignment="Center" />
+        </StackPanel>
+
+        <Button Content="参照物"/>
     </Grid>
 </UserControl>

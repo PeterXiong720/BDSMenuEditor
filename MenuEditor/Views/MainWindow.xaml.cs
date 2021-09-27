@@ -25,9 +25,14 @@ namespace MenuEditor
         public MainWindow()
         {
             InitializeComponent();
-            var viewmodel = new MainWindowViewModel();
+            var viewmodel = new MainWindowViewModel(new JsonDataService());
             this.DataContext = viewmodel;
             this.TopMenu.DataContext = viewmodel.TopMenu;
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

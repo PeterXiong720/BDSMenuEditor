@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using MenuEditor.Models;
+using Newtonsoft.Json;
 
 namespace MenuEditor.ViewModels
 {
@@ -15,29 +15,30 @@ namespace MenuEditor.ViewModels
     {
         public MainWindowViewModel()
         {
+
+        }
+
+        public MainWindowViewModel(IDataService dataService)
+        {
             this.workPath = Configuration.GetValue<string>("finallyopen");
-            this.dataService = new JsonDataService();
+            this.dataService = dataService;
 
             this.TopMenu.SaveData += onSaveData;
             this.TopMenu.NewProject += onNewProj;
 
-            if (System.IO.File.Exists(this.workPath))
+            if (System.IO.Directory.Exists(this.workPath))
             {
-                this.rawMenu = dataService.LoadData<RawMenu>(workPath + "/src.menu");
+                MainWindowViewModel rawMenu = null;
+                rawMenu = dataService.LoadData<MainWindowViewModel>(workPath + "/src.menu");
+                load(rawMenu);
             }
-            else
-            {
-                this.rawMenu = new RawMenu();
-            }
-
-            load();
         }
 
+        [JsonIgnore]
         private IDataService dataService;
 
+        [JsonIgnore]
         private string workPath;
-
-        private RawMenu rawMenu;
 
         private void onSaveData()
         {
@@ -53,13 +54,13 @@ namespace MenuEditor.ViewModels
                     {
                         //目录为空
                         this.workPath = Dialog.SelectedPath;
-                        dataService.SaveData(workPath + "/src.menu", rawMenu);
+                        dataService.SaveData(workPath + "/src.menu", this);
                     }
                 }
             }
             else
             {
-                dataService.SaveData(workPath + "/src.menu", rawMenu);
+                dataService.SaveData(workPath + "/src.menu", this);
             }
         }
 
@@ -75,25 +76,21 @@ namespace MenuEditor.ViewModels
                 {
                     //目录为空
                     this.workPath = Dialog.SelectedPath;
-                    this.rawMenu = new RawMenu();
-                    this.load();
                 }
             }
         }
 
-        private void load()
+        private void load(MainWindowViewModel rawMenu)
         {
-            var pages = new List<PageViewModel>();
-            foreach (var item in rawMenu.Pages)
-            {
-                pages.Add(new PageViewModel(item, new Views.EditMenu()));
-            }
-            this.MenuCollection = new ObservableCollection<PageViewModel>();
+            this.MenuCollection = rawMenu.MenuCollection;
+            this.ModalCollection = rawMenu.ModalCollection;
         }
 
+        [JsonIgnore]
         public TopMenuViewModel TopMenu = new TopMenuViewModel();
 
         private ObservableCollection<PageViewModel> _MenuCollection = new() { };
+        [JsonProperty]
         public ObservableCollection<PageViewModel> MenuCollection
         {
             get => _MenuCollection;
@@ -103,6 +100,15 @@ namespace MenuEditor.ViewModels
             }
         }
 
-
+        private ObservableCollection<ModalDialogVewModel> _ModalCollection = new() { };
+        [JsonProperty]
+        public ObservableCollection<ModalDialogVewModel> ModalCollection
+        {
+            get => _ModalCollection;
+            set
+            {
+                _ = SetProperty(ref _ModalCollection, value);
+            }
+        }
     }
 }

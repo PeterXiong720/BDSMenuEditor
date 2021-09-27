@@ -5,49 +5,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 
 namespace MenuEditor.ViewModels
 {
-    class PageViewModel: BindableBase
+    public class PageViewModel : FormBase
     {
-        public PageViewModel(Models.Page page, Views.EditMenu menu)
+        public PageViewModel()
         {
-            Page = page;
+
         }
 
-        public Models.Page Page { get; set; }
-
-        public string FileName
+        public PageViewModel(string filename, bool isop, string title, string content, ObservableCollection<Button> buttons = null)
         {
-            get => Page.FileName;
+            FileName = filename;
+            IsOpMenu = isop;
+            Title = title;
+            Content = content;
+            Buttons = (buttons != null) ? buttons : new() { };
+        }
+
+        private bool isOpMenu = false;
+
+        public bool IsOpMenu
+        {
+            get => isOpMenu;
             set
             {
-                Page.FileName = value;
-                this.RaisePropertyChanged();
+                SetProperty(ref isOpMenu, value);
             }
         }
 
-        public string Title
+        private ObservableCollection<Button> buttons = new() { };
+
+        public ObservableCollection<Button> Buttons
         {
-            get => Page.Title;
+            get => buttons;
             set
             {
-                Page.Title = value;
-                this.RaisePropertyChanged();
+                SetProperty(ref buttons, value);
             }
         }
 
-        public string Content
-        {
-            get => Page.Content;
-            set
-            {
-                Page.Content = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-
+        [JsonIgnore]
         public Views.EditMenu EditMenu { get; set; }
 
     }

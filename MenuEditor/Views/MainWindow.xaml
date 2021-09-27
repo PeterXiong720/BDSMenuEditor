@@ -16,7 +16,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         
         mc:Ignorable="d"
-        Title="MenuEditor" Height="600" Width="880">
+        Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
     <Grid>
         <DockPanel LastChildFill="True">
             <Menu x:Name="TopMenu"
@@ -129,34 +129,32 @@
                         </StackPanel>
                     </TabItem.Header>
                     <Grid  Width="180" Background="#FF515151">
-                        <ListBox ItemsSource="{Binding MenuCollection}">
+                        <ListBox ItemsSource="{Binding MenuCollection,Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <materialDesign:Card
-                                        Background="{DynamicResource PrimaryHueDarkBrush}"
-                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                        Width="200"
-                                        Padding="8"
-                                        UniformCornerRadius="6">
-                                        <TextBox
-                                            Grid.Column="1"
-                                            Grid.Row="4"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding FileName,Mode=TwoWay}"/>
-                                    </materialDesign:Card>
+                                    <TextBlock x:Name="tbFile" Text="{Binding FileName,Mode=TwoWay}">
+                                        <ContextMenu>
+                                            <MenuItem Header="重命名"></MenuItem>
+                                            <MenuItem Header="删除"></MenuItem>
+                                        </ContextMenu>
+                                    </TextBlock>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
+                        <Button
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            Command="{}"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Grid.Row="0"
+                            Margin="0 0 28 20"
+                            Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand" />
                     </Grid>
                 </TabItem>
 
             </TabControl>
             <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="参照物"/>
+                
             </Grid>
         </DockPanel>
     </Grid>
