@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +28,7 @@ namespace MenuEditor.ViewModels
         public string Text
         {
             get => text;
-            set
-            {
-                SetProperty(ref text, value);
-            }
+            set => SetProperty(ref text, value);
         }
 
         private string image;
@@ -38,10 +36,7 @@ namespace MenuEditor.ViewModels
         public string Image
         {
             get => image;
-            set
-            {
-                SetProperty(ref image, value);
-            }
+            set => SetProperty(ref image, value);
         }
 
         private ButtonType type;
@@ -49,10 +44,7 @@ namespace MenuEditor.ViewModels
         public ButtonType Type
         {
             get => type;
-            set
-            {
-                SetProperty(ref type, value);
-            }
+            set => SetProperty(ref type, value);
         }
 
         private string execute;
@@ -60,11 +52,17 @@ namespace MenuEditor.ViewModels
         public string Execute
         {
             get => execute;
-            set
-            {
-                SetProperty(ref execute, value);
-            }
+            set => SetProperty(ref execute, value);
         }
+
+        private string[] types = System.Enum.GetNames(typeof(ButtonType));
+        [JsonIgnore]
+        public string[] Types
+        {
+            get => types;
+            set => SetProperty(ref types, value);
+        }
+
     }
 
     public enum ButtonType

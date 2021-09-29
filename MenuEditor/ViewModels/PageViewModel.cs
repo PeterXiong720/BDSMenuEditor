@@ -14,10 +14,10 @@ namespace MenuEditor.ViewModels
     {
         public PageViewModel()
         {
-
+            //EditMenu = new Views.EditMenu(this);
         }
 
-        public PageViewModel(string filename, bool isop, string title, string content, ObservableCollection<Button> buttons = null)
+        public PageViewModel(string filename, bool isop, string title, string content, ObservableCollection<Button> buttons = null) : this()
         {
             FileName = filename;
             IsOpMenu = isop;
@@ -31,10 +31,7 @@ namespace MenuEditor.ViewModels
         public bool IsOpMenu
         {
             get => isOpMenu;
-            set
-            {
-                SetProperty(ref isOpMenu, value);
-            }
+            set => SetProperty(ref isOpMenu, value);
         }
 
         private ObservableCollection<Button> buttons = new() { };
@@ -42,10 +39,7 @@ namespace MenuEditor.ViewModels
         public ObservableCollection<Button> Buttons
         {
             get => buttons;
-            set
-            {
-                SetProperty(ref buttons, value);
-            }
+            set => SetProperty(ref buttons, value);
         }
 
         [JsonIgnore]

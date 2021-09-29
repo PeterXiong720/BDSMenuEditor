@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MenuEditor.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace MenuEditor.Views
     /// </summary>
     public partial class EditMenu : UserControl
     {
-        public EditMenu()
+        public EditMenu(ref ViewModels.PageViewModel vmodel)
         {
             InitializeComponent();
+            DataContext = vmodel;
         }
+
+        public string[] ButtonTypes = System.Enum.GetNames(typeof(ButtonType));
     }
 }

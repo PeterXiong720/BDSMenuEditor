@@ -30,9 +30,14 @@ namespace MenuEditor
             this.TopMenu.DataContext = viewmodel.TopMenu;
         }
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void onLbMenuLostFocus(object sender, RoutedEventArgs e)
         {
+            lbMenu.SelectedItem = null;
+        }
 
+        private void onLbModalLostFocus(object sender, RoutedEventArgs e)
+        {
+            lbModal.SelectedItem = null;
         }
     }
 }

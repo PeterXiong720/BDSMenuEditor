@@ -12,10 +12,10 @@ namespace MenuEditor.ViewModels
     {
         public ModalDialogVewModel()
         {
-
+            //EditModalDialog = new Views.EditModalDialog(this);
         }
 
-        public ModalDialogVewModel(string filename, string title, string content, string btn1, string btn2)
+        public ModalDialogVewModel(string filename, string title, string content, Button btn1, Button btn2) : this()
         {
             FileName = filename;
             Title = title;
@@ -24,28 +24,22 @@ namespace MenuEditor.ViewModels
             ButtonTwo = btn2;
         }
 
-        private string btn1;
+        private Button btn1;
 
-        public string ButtonOne
+        public Button ButtonOne
         {
             get => btn1;
-            set
-            {
-                SetProperty(ref btn1, value);
-            }
+            set => SetProperty(ref btn1, value);
         }
 
-        private string btn2;
+        private Button btn2;
 
-        public string ButtonTwo
+        public Button ButtonTwo
         {
             get => btn2;
-            set
-            {
-                SetProperty(ref btn2, value);
-            }
+            set => SetProperty(ref btn2, value);
         }
-        
+
         [JsonIgnore]
         public Views.EditModalDialog EditModalDialog { get; set; }
     }

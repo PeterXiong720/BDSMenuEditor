@@ -3,10 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MenuEditor.Views"
+             xmlns:local="clr-namespace:MenuEditor.Views" 
+             xmlns:viewmodels="clr-namespace:MenuEditor.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ModalDialogVewModel}"
+             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             FontFamily="{materialDesign:MaterialDesignFont}"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.3*"/>
+                <RowDefinition Height="1.3*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0"
+                materialDesign:HintAssist.Hint="文件名"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                VerticalAlignment="Center" 
+                Text="{Binding FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="1"
+                materialDesign:HintAssist.Hint="标题"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                VerticalAlignment="Center"
+                Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="2"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                VerticalAlignment="Top"
+                Height="130"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="内容" Cursor="IBeam" 
+                Text="{Binding Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <materialDesign:Card Grid.Row="3"
+                Padding="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="按钮1  " VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Margin="3"
+                        Text="{Binding ButtonOne.Text,UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Center"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="按钮文本" />
+                    <ComboBox Grid.Column="2" Margin="3" x:Name="Btn1ComboBox"
+                        Text="{Binding ButtonOne.Type}"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="按钮类型"/>
+                    <TextBox Grid.Column="3" Margin="3"
+                        Text="{Binding ButtonOne.Execute,UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Center"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
+                    
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="4"
+                Padding="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="按钮2  " VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Margin="3"
+                        Text="{Binding ButtonTwo.Text,UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Center"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="按钮文本" />
+                    <ComboBox Grid.Column="2" Margin="3" x:Name="Btn2ComboBox"
+                        Text="{Binding ButtonTwo.Type}"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="按钮类型"/>
+                    <TextBox Grid.Column="3" Margin="3"
+                        Text="{Binding ButtonTwo.Execute,UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Center"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
+
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
     </Grid>
 </UserControl>

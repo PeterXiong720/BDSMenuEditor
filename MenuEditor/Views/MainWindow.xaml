@@ -32,7 +32,8 @@
 
                     <MenuItem
                         Header="新建"
-                        InputGestureText="Ctrl+K+O"/>
+                        InputGestureText="Ctrl+K+O"
+                        Command="{Binding NewCommand}"/>
 
                     <Separator/>
 
@@ -93,7 +94,7 @@
                         Command="Paste"
                         Icon="{materialDesign:PackIcon Kind=ContentPaste}"/>
                 </MenuItem>
-                
+
                 <MenuItem Header="_帮助">
                     <MenuItem
                         Header="_教程"
@@ -112,31 +113,54 @@
                 Style="{StaticResource MaterialDesignNavigatilRailTabControl}" 
                 materialDesign:ColorZoneAssist.Mode="Standard"
                 materialDesign:ShadowAssist.ShadowDepth="Depth0">
-                <TabItem >
-                    <TabItem.Header>
-                        <StackPanel Height="auto" Width="auto">
-                            <materialDesign:PackIcon Kind="Edit" Width="24" Height="24" HorizontalAlignment="Center"/>
-                            <TextBlock Text="编辑" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </TabItem.Header>
-                </TabItem>
                 
                 <TabItem >
                     <TabItem.Header>
                         <StackPanel Height="auto" Width="auto">
-                            <materialDesign:PackIcon Kind="Folder" Width="24" Height="24" HorizontalAlignment="Center"/>
-                            <TextBlock Text="全部菜单" HorizontalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="Menu" Width="24" Height="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="普通菜单" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </TabItem.Header>
                     <Grid  Width="180" Background="#FF515151">
-                        <ListBox ItemsSource="{Binding MenuCollection,Mode=TwoWay}">
+                        <ListBox 
+                            x:Name="lbMenu"
+                            ItemsSource="{Binding MenuCollection}" 
+                            SelectedItem="{Binding CurrentEditMenu}"
+                            LostFocus="onLbMenuLostFocus">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock x:Name="tbFile" Text="{Binding FileName,Mode=TwoWay}">
-                                        <ContextMenu>
-                                            <MenuItem Header="重命名"></MenuItem>
-                                            <MenuItem Header="删除"></MenuItem>
-                                        </ContextMenu>
+                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}">
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            Command="{}"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Grid.Row="0"
+                            Margin="0 0 28 20"
+                            Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand" />
+                    </Grid>
+                </TabItem>
+
+                <TabItem >
+                    <TabItem.Header>
+                        <StackPanel Height="auto" Width="auto">
+                            <materialDesign:PackIcon Kind="CheckBox" Width="24" Height="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="模式菜单" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Width="180" Background="#FF515151">
+                        <ListBox 
+                            x:Name="lbModal"
+                            ItemsSource="{Binding ModalCollection}" 
+                            SelectedItem="{Binding CurrentEditModal}"
+                            LostFocus="onLbModalLostFocus">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}">
                                     </TextBlock>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -154,7 +178,7 @@
 
             </TabControl>
             <Grid DockPanel.Dock="Top">
-                
+                <ContentControl Content="{Binding EditSpace}"></ContentControl>
             </Grid>
         </DockPanel>
     </Grid>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MenuEditor.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,13 @@ namespace MenuEditor.Views
     /// </summary>
     public partial class EditModalDialog : UserControl
     {
-        public EditModalDialog()
+        public EditModalDialog(ref ViewModels.ModalDialogVewModel vmodel)
         {
             InitializeComponent();
+            DataContext = vmodel;
+
+            Btn1ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
+            Btn2ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
         }
     }
 }

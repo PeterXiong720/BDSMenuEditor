@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using System.Windows.Controls;
 
 namespace MenuEditor.ViewModels
 {
@@ -54,13 +55,13 @@ namespace MenuEditor.ViewModels
                     {
                         //目录为空
                         this.workPath = Dialog.SelectedPath;
-                        dataService.SaveData(workPath + "/src.menu", this);
+                        _ = dataService.SaveData(workPath + "/src.menu", this);
                     }
                 }
             }
             else
             {
-                dataService.SaveData(workPath + "/src.menu", this);
+                _ = dataService.SaveData(workPath + "/src.menu", this);
             }
         }
 
@@ -76,15 +77,68 @@ namespace MenuEditor.ViewModels
                 {
                     //目录为空
                     this.workPath = Dialog.SelectedPath;
+                    _ = dataService.SaveData(workPath + "/src.menu", this);
                 }
             }
         }
 
         private void load(MainWindowViewModel rawMenu)
         {
-            this.MenuCollection = rawMenu.MenuCollection;
-            this.ModalCollection = rawMenu.ModalCollection;
+            MenuCollection = rawMenu.MenuCollection;
+            ModalCollection = rawMenu.ModalCollection;
+
+            foreach (var item in MenuCollection)
+            {
+                var vmodel = item;
+                item.EditMenu = new Views.EditMenu(ref vmodel);
+            }
+
+            foreach (var item in ModalCollection)
+            {
+                var vmodel = item;
+                item.EditModalDialog = new Views.EditModalDialog(ref vmodel);
+            }
         }
+
+        private PageViewModel currentEditMenu;
+        [JsonIgnore]
+        public PageViewModel CurrentEditMenu
+        {
+            get => currentEditMenu;
+            set
+            {
+                _ = SetProperty(ref currentEditMenu, value);
+                if (value != null)
+                {
+                    EditSpace = value.EditMenu;
+                }
+            }
+        }
+
+        private ModalDialogVewModel currentEditModal;
+        [JsonIgnore]
+        public ModalDialogVewModel CurrentEditModal
+        {
+            get => currentEditModal;
+            set
+            {
+                _ = SetProperty(ref currentEditModal, value);
+                if (value != null)
+                {
+                    EditSpace = value.EditModalDialog;
+                }
+            }
+        }
+
+        private UserControl editSpace;
+        [JsonIgnore]
+        public UserControl EditSpace
+        {
+            get => editSpace;
+            set => SetProperty(ref editSpace, value);
+        }
+
+
 
         [JsonIgnore]
         public TopMenuViewModel TopMenu = new TopMenuViewModel();
@@ -94,10 +148,7 @@ namespace MenuEditor.ViewModels
         public ObservableCollection<PageViewModel> MenuCollection
         {
             get => _MenuCollection;
-            set
-            {
-                _ = SetProperty(ref _MenuCollection, value);
-            }
+            set => SetProperty(ref _MenuCollection, value);
         }
 
         private ObservableCollection<ModalDialogVewModel> _ModalCollection = new() { };
@@ -105,10 +156,7 @@ namespace MenuEditor.ViewModels
         public ObservableCollection<ModalDialogVewModel> ModalCollection
         {
             get => _ModalCollection;
-            set
-            {
-                _ = SetProperty(ref _ModalCollection, value);
-            }
+            set => SetProperty(ref _ModalCollection, value);
         }
     }
 }
