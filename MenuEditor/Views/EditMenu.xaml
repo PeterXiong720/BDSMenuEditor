@@ -16,74 +16,100 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Grid Margin="30" DockPanel.Dock="Top" MinHeight="255">
+        <Grid Margin="30" DockPanel.Dock="Top" MinHeight="250">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition Height="1.6*"/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0"
-                materialDesign:HintAssist.Hint="文件名"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                VerticalAlignment="Center" 
-                Text="{Binding FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Grid.Row="1"
+                    materialDesign:HintAssist.Hint="文件名"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    VerticalAlignment="Center" 
+                    Text="{Binding FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="是否需要管理员权限    "/>
+                <ToggleButton
+                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                    ToolTip="MaterialDesignSwitchAccentToggleButton"
+                    IsChecked="{Binding IsOpMenu}" />
+            </StackPanel>
+            <TextBox Grid.Row="2"
                 materialDesign:HintAssist.Hint="标题"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                 VerticalAlignment="Center"
                 Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="2"
+            <TextBox Grid.Row="3"
                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                 VerticalAlignment="Top"
-                Height="130"
+                Height="80"
                 AcceptsReturn="True"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="内容" Cursor="IBeam" 
                 Text="{Binding Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <ListBox ItemsSource="{Binding Buttons}" HorizontalContentAlignment="Center" DockPanel.Dock="Top">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <materialDesign:Card
+        <Grid>
+            <ListBox ItemsSource="{Binding Buttons}" SelectedItem="{Binding SelectedItem}" HorizontalContentAlignment="Center" DockPanel.Dock="Top">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card
                             Padding="8">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Margin="3"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Margin="3"
                                     Text="{Binding Image,UpdateSourceTrigger=PropertyChanged}"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     VerticalAlignment="Center"
                                     VerticalScrollBarVisibility="Auto"
                                     materialDesign:HintAssist.Hint="图片URL（或资源包路径）" />
-                            <TextBox Grid.Column="1" Margin="3"
+                                <TextBox Grid.Column="1" Margin="3"
                                     Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     VerticalAlignment="Center"
                                     VerticalScrollBarVisibility="Auto"
                                     materialDesign:HintAssist.Hint="按钮文本" />
-                            <ComboBox Grid.Column="2" Margin="3"
+                                <ComboBox Grid.Column="2" Margin="3"
                                     Text="{Binding Type}"
                                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                     VerticalAlignment="Center"
                                     materialDesign:HintAssist.Hint="按钮类型"
                                     ItemsSource="{Binding Types}">
-                            </ComboBox>
-                            <TextBox Grid.Column="3" Margin="3"
+                                </ComboBox>
+                                <TextBox Grid.Column="3" Margin="3"
                                     Text="{Binding Execute,UpdateSourceTrigger=PropertyChanged}"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     VerticalAlignment="Center"
                                     VerticalScrollBarVisibility="Auto"
                                     materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
 
-                        </Grid>
-                    </materialDesign:Card>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button
+                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                Command="{Binding AddButtonCommand}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right" 
+                Margin="-20 0 28 68"
+                Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand"/>
+            <Button
+                Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                Command="{Binding RemoveButtonCommand}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right" 
+                Margin="-20 0 28 18"
+                ToolTip="MaterialDesignFloatingActionMiniDarkButton" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="Remove"/>
+            </Button>
+        </Grid>
     </DockPanel>
 </UserControl>

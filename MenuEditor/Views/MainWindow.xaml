@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MenuEditor"
         xmlns:viewmodels="clr-namespace:MenuEditor.ViewModels" 
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=System.Runtime"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -58,41 +58,11 @@
                         Header="自动保存"
                         IsCheckable="True"
                         IsChecked="{Binding AutoSave,Mode=TwoWay}"/>
-
-                    <MenuItem
-                        Header="最近打开"
-                        InputGestureText="Ctrl+D">
-                        <MenuItem
-                            Header="测试0"
-                            IsCheckable="True"/>
-                        <MenuItem
-                            Header="测试1"
-                            IsCheckable="True"/>
-                    </MenuItem>
-
-                    <MenuItem
-                        Header="Look Deeper"
-                        InputGestureText="Ctrl+D">
-                        <MenuItem Header="Plain"/>
-                        <MenuItem Header="Ice Cream"/>
-                    </MenuItem>
                 </MenuItem>
 
-                <MenuItem Header="_编辑">
+                <MenuItem Header="_导出">
                     <MenuItem
-                        Header="_剪切"
-                        Command="Cut"
-                        Icon="{materialDesign:PackIcon Kind=ContentCut}"/>
-
-                    <MenuItem
-                        Header="_复制"
-                        Command="Copy"
-                        Icon="{materialDesign:PackIcon Kind=ContentCopy}"/>
-
-                    <MenuItem
-                        Header="_粘贴"
-                        Command="Paste"
-                        Icon="{materialDesign:PackIcon Kind=ContentPaste}"/>
+                        Header="_导出"/>
                 </MenuItem>
 
                 <MenuItem Header="_帮助">
@@ -122,26 +92,66 @@
                         </StackPanel>
                     </TabItem.Header>
                     <Grid  Width="180" Background="#FF515151">
-                        <ListBox 
-                            x:Name="lbMenu"
-                            ItemsSource="{Binding MenuCollection}" 
-                            SelectedItem="{Binding CurrentEditMenu}"
-                            LostFocus="onLbMenuLostFocus">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}">
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            Command="{}"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Right"
-                            Grid.Row="0"
-                            Margin="0 0 28 20"
-                            Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand" />
+
+                        <materialDesign:DialogHost
+                            IsOpen="{Binding DialogViewModel.IsDialogOpen}"
+                            DialogContent="{Binding DialogViewModel.DialogContent}"
+                            CloseOnClickAway="True"
+                            OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
+                            DialogTheme="Inherit">
+                            
+                            <Border
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            MinHeight="256"
+                            ClipToBounds="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <ListBox 
+                                    x:Name="lbMenu"
+                                    ItemsSource="{Binding MenuCollection}" 
+                                    SelectedItem="{Binding CurrentEditMenu}"
+                                    LostFocus="onLbMenuLostFocus">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                x:Name="Border"
+                                                Padding="8"
+                                                BorderThickness="0 0 0 1"
+                                                BorderBrush="{DynamicResource MaterialDesignDivider}">
+                                                    <Grid Width="180">
+                                                        <TextBlock Text="{Binding FileName,Mode=TwoWay}"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <materialDesign:ColorZone
+                                    Mode="PrimaryMid"
+                                    Grid.Row="1"
+                                    Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                        <TextBlock
+                                        Margin="16"
+                                        Text="标准菜单"/>
+                                    </materialDesign:ColorZone>
+
+                                    <Button
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        Command="{Binding OpenDialogCommand}"
+                                        CommandParameter="menu"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Right" 
+                                        Grid.Row="0"
+                                        Margin="0 0 28 -20"
+                                        Content="{materialDesign:PackIcon Kind=Plus, Size=22}"/>
+                                </Grid>
+                            </Border>
+                        </materialDesign:DialogHost>
                     </Grid>
                 </TabItem>
 
@@ -153,26 +163,69 @@
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Width="180" Background="#FF515151">
-                        <ListBox 
-                            x:Name="lbModal"
-                            ItemsSource="{Binding ModalCollection}" 
-                            SelectedItem="{Binding CurrentEditModal}"
-                            LostFocus="onLbModalLostFocus">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}">
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            Command="{}"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Right"
-                            Grid.Row="0"
-                            Margin="0 0 28 20"
-                            Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand" />
+
+                        <materialDesign:DialogHost
+                            IsOpen="{Binding DialogViewModel.IsDialogOpen}"
+                            DialogContent="{Binding DialogViewModel.DialogContent}"
+                            CloseOnClickAway="True"
+                            OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
+                            DialogTheme="Inherit">
+
+                            <Border
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            MinHeight="256"
+                            ClipToBounds="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <ListBox 
+                                    x:Name="lbModal"
+                                    ItemsSource="{Binding ModalCollection}" 
+                                    SelectedItem="{Binding CurrentEditModal}"
+                                    LostFocus="onLbModalLostFocus">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                x:Name="Border"
+                                                Padding="8"
+                                                BorderThickness="0 0 0 1"
+                                                BorderBrush="{DynamicResource MaterialDesignDivider}">
+                                                <Grid Width="180">
+                                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <materialDesign:ColorZone
+                                    Mode="PrimaryMid"
+                                    Grid.Row="1"
+                                    Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                    <TextBlock
+                                        Margin="16"
+                                        Text="模式对话框"/>
+                                </materialDesign:ColorZone>
+
+                                <Button
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                    Command="{Binding OpenDialogCommand}"
+                                    CommandParameter="modal"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Right" 
+                                    Grid.Row="0"
+                                    Margin="0 0 28 -20"
+                                    Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand"/>
+                            </Grid>
+                        </Border>
+                        </materialDesign:DialogHost>
+
+
+                        
                     </Grid>
                 </TabItem>
 

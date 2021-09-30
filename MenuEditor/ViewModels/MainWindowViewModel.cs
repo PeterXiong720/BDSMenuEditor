@@ -14,18 +14,18 @@ namespace MenuEditor.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel()
-        {
-
-        }
+        public MainWindowViewModel() { }
 
         public MainWindowViewModel(IDataService dataService)
         {
             this.workPath = Configuration.GetValue<string>("finallyopen");
             this.dataService = dataService;
 
-            this.TopMenu.SaveData += onSaveData;
-            this.TopMenu.NewProject += onNewProj;
+            TopMenu.SaveData += onSaveData;
+            TopMenu.NewProject += onNewProj;
+
+            AddMenuCommand = new DelegateCommand<string>(new Action<string>(AddMenu));
+            OpenDialogCommand = new DelegateCommand<string>(new Action<string>(OpenDialog));
 
             if (System.IO.Directory.Exists(this.workPath))
             {
@@ -157,6 +157,61 @@ namespace MenuEditor.ViewModels
         {
             get => _ModalCollection;
             set => SetProperty(ref _ModalCollection, value);
+        }
+
+        private string addType;
+        [JsonIgnore]
+        public string AddItemType
+        {
+            get => addType;
+            set => SetProperty(ref addType, value);
+        }
+
+        private string addName;
+        [JsonIgnore]
+        public string AddItemName
+        {
+            get => addName;
+            set => SetProperty(ref addName, value);
+        }
+
+        [JsonIgnore]
+        public AddItemDialogViewModel DialogViewModel { get; set; } = new() { };
+
+        [JsonIgnore]
+        public DelegateCommand<string> AddMenuCommand { get; set; }
+        private void AddMenu(string type)
+        {
+            if (type == "menu")
+            {
+                var menu = new PageViewModel()
+                {
+                    FileName = AddItemName
+                };
+                menu.EditMenu = new Views.EditMenu(ref menu);
+                MenuCollection.Add(menu);
+            }
+            else if (type == "modal")
+            {
+                var menu = new ModalDialogVewModel()
+                {
+                    FileName = AddItemName
+                };
+                menu.EditModalDialog = new Views.EditModalDialog(ref menu);
+                ModalCollection.Add(menu);
+            }
+
+            DialogViewModel.IsDialogOpen = false;
+            AddItemName = "";
+        }
+
+        [JsonIgnore]
+        public DelegateCommand<string> OpenDialogCommand { get; set; }
+        private void OpenDialog(string arg)
+        {
+            AddItemType = arg;
+            DialogViewModel.DialogContent = new Views.AddItemDialog();
+            DialogViewModel.IsDialogOpen = true;
         }
     }
 }

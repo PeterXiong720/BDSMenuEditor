@@ -16,6 +16,7 @@ namespace MenuEditor.ViewModels
             get => fileName;
             set
             {
+                if (value == null) value = "";
                 SetProperty(ref fileName, value);
             }
         }
@@ -27,6 +28,7 @@ namespace MenuEditor.ViewModels
             get => title;
             set
             {
+                if (value == null) value = "";
                 SetProperty(ref title, value.Trim());
             }
         }
@@ -38,6 +40,7 @@ namespace MenuEditor.ViewModels
             get => content;
             set
             {
+                if(value == null) value = "";
                 SetProperty(ref content, value);
             }
         }
