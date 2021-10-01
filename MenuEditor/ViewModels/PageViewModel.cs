@@ -45,7 +45,7 @@ namespace MenuEditor.ViewModels
         }
 
         private Button _SelectedItem;
-
+        [JsonIgnore]
         public Button SelectedItem
         {
             get => _SelectedItem;
@@ -56,6 +56,7 @@ namespace MenuEditor.ViewModels
         [JsonIgnore]
         public Views.EditMenu EditMenu { get; set; }
 
+        [JsonIgnore]
         public DelegateCommand AddButtonCommand { get; set; }
         private void AddButton()
         {
@@ -69,6 +70,7 @@ namespace MenuEditor.ViewModels
             Buttons.Add(btn);
         }
 
+        [JsonIgnore]
         public DelegateCommand RemoveButtonCommand { get; set; }
         private void RemoveButton()
         {
@@ -80,7 +82,6 @@ namespace MenuEditor.ViewModels
                 }
                 catch
                 {
-                    throw;
                 }
             }
         }

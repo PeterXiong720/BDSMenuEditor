@@ -19,6 +19,14 @@
         Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
 
     <Grid>
+        <materialDesign:DialogHost 
+            IsOpen="{Binding SelectScriptDialogViewModal.IsDialogOpen}"
+            DialogContent="{Binding SelectScriptDialogViewModal.SelectScriptDialogContent}"
+            CloseOnClickAway="True"
+            OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
+            DialogTheme="Inherit">
+        </materialDesign:DialogHost>
+        
         <DockPanel LastChildFill="True">
             <Menu x:Name="TopMenu"
                 d:DataContext="{Binding TopMenu}"
@@ -62,21 +70,12 @@
                         Header="_导出"
                         Icon="{materialDesign:PackIcon Kind=ExportVariant}"
                         InputGestureText="Ctrl+B"
-                        Command="{Binding ExportCommand}"/>
+                        Command="{Binding SelectScriptDialogCommand}">
+                    </MenuItem>
                     <MenuItem
                         Header="_选择导出格式"
-                        Icon="{materialDesign:PackIcon Kind=Select}">
-                        <Grid>
-                            <ListBox 
-                            ItemsSource="{Binding Scripts}" 
-                            SelectedItem="{Binding SelectScript}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Grid>
+                        Icon="{materialDesign:PackIcon Kind=Select}"
+                        Command="{Binding SelectScriptDialogCommand}">
                     </MenuItem>
                     <MenuItem
                         Header="调试"

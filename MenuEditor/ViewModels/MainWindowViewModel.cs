@@ -18,7 +18,7 @@ namespace MenuEditor.ViewModels
 
         public MainWindowViewModel(IDataService dataService)
         {
-            this.workPath = Configuration.GetValue<string>("finallyopen");
+            workPath = Configuration.GetValue<string>("finallyopen");
             this.dataService = dataService;
 
             TopMenu.OpenWorkSpace += onOpenWorkSpace;
@@ -29,6 +29,7 @@ namespace MenuEditor.ViewModels
             OpenDialogCommand = new DelegateCommand<string>(new Action<string>(OpenDialog));
 
             TopMenu.ExportCommand = new DelegateCommand(new Action(ExportMenu));
+            SelectScriptDialogViewModal = TopMenu;
 
             if (System.IO.Directory.Exists(this.workPath))
             {
@@ -136,9 +137,10 @@ namespace MenuEditor.ViewModels
             if (TopMenu.SelectScript != null)
             {
                 var ExportService = new ExportMenuService(
-                    TopMenu.SelectScript.FullName,
+                    TopMenu.SelectScript,
+                    workPath,
                     TopMenu.ScriptDebug);
-                _ = ExportService.ExportMenuAsync(this);
+                ExportService.ExportMenu(this);
             }
 
         }
@@ -220,6 +222,8 @@ namespace MenuEditor.ViewModels
 
         [JsonIgnore]
         public AddItemDialogViewModel DialogViewModel { get; set; } = new() { };
+        [JsonIgnore]
+        public TopMenuViewModel SelectScriptDialogViewModal { get; set; }
 
         [JsonIgnore]
         public DelegateCommand<string> AddMenuCommand { get; set; }

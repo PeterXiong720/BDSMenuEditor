@@ -70,6 +70,7 @@ namespace MenuEditor.ViewModels
         Command,
         OperatorCommand,
         RequireOpCommand,
+        Console,
         JavaScriptCode,
         JavaScriptFile,
         Menu,
