@@ -28,7 +28,6 @@ namespace MenuEditor
             var viewmodel = new MainWindowViewModel(new JsonDataService());
             this.DataContext = viewmodel;
             this.TopMenu.DataContext = viewmodel.TopMenu;
-            //this.dialoghost.Content = new Views.SelectScriptDialog();
         }
 
         private void onLbMenuLostFocus(object sender, RoutedEventArgs e)

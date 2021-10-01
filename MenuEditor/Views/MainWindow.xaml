@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MenuEditor"
         xmlns:viewmodels="clr-namespace:MenuEditor.ViewModels" 
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -18,7 +19,21 @@
         mc:Ignorable="d"
         Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
 
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding SelectScriptDialogViewModal.OpenCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="K" Command="{Binding SelectScriptDialogViewModal.NewCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SelectScriptDialogViewModal.SaveCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="B" Command="{Binding SelectScriptDialogViewModal.SelectScriptDialogCommand}"/>
+    </Window.InputBindings>
     <Grid>
+        <MediaElement Name="Bgm" 
+                      Source="http://webfs.ali.kugou.com/202110020634/3b5d0eb1504fc57e891dfa8f1e12c937/G106/M04/0A/00/CocBAFnJu7mAPJwkAELQhpDsKdU759.mp3"
+                      Volume="0.1">
+            <MediaElement.OpacityMask>
+                <ImageBrush/>
+            </MediaElement.OpacityMask>
+        </MediaElement>
+        
         <materialDesign:DialogHost 
             IsOpen="{Binding SelectScriptDialogViewModal.IsDialogOpen}"
             DialogContent="{Binding SelectScriptDialogViewModal.SelectScriptDialogContent}"
