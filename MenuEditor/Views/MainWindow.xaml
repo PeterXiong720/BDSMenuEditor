@@ -17,6 +17,7 @@
         
         mc:Ignorable="d"
         Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
+
     <Grid>
         <DockPanel LastChildFill="True">
             <Menu x:Name="TopMenu"
@@ -28,11 +29,12 @@
                 <MenuItem Header="_文件">
                     <MenuItem
                         Header="打开"
-                        InputGestureText="Ctrl+O"/>
+                        InputGestureText="Ctrl+O"
+                        Command="{Binding OpenCommand}"/>
 
                     <MenuItem
                         Header="新建"
-                        InputGestureText="Ctrl+K+O"
+                        InputGestureText="Ctrl+K"
                         Command="{Binding NewCommand}"/>
 
                     <Separator/>
@@ -44,12 +46,7 @@
                         Command="{Binding SaveCommand}">
                     </MenuItem>
 
-                    <MenuItem
-                        Header="关闭"
-                        InputGestureText="Ctrl+E"
-                        Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>
-
-                    <MenuItem Header="关闭编辑器"
+                    <MenuItem Header="关闭"
                         InputGestureText="Alt+F4"/>
 
                     <Separator/>
@@ -62,7 +59,29 @@
 
                 <MenuItem Header="_导出">
                     <MenuItem
-                        Header="_导出"/>
+                        Header="_导出"
+                        Icon="{materialDesign:PackIcon Kind=ExportVariant}"
+                        InputGestureText="Ctrl+B"
+                        Command="{Binding ExportCommand}"/>
+                    <MenuItem
+                        Header="_选择导出格式"
+                        Icon="{materialDesign:PackIcon Kind=Select}">
+                        <Grid>
+                            <ListBox 
+                            ItemsSource="{Binding Scripts}" 
+                            SelectedItem="{Binding SelectScript}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </MenuItem>
+                    <MenuItem
+                        Header="调试"
+                        IsCheckable="True"
+                        IsChecked="{Binding ScriptDebug,Mode=TwoWay}"/>
                 </MenuItem>
 
                 <MenuItem Header="_帮助">
@@ -146,7 +165,7 @@
                                         CommandParameter="menu"
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Right" 
-                                        Grid.Row="0"
+                                        Grid.Row="0" ToolTip="添加新菜单"
                                         Margin="0 0 28 -20"
                                         Content="{materialDesign:PackIcon Kind=Plus, Size=22}"/>
                                 </Grid>
@@ -217,7 +236,7 @@
                                     CommandParameter="modal"
                                     VerticalAlignment="Bottom"
                                     HorizontalAlignment="Right" 
-                                    Grid.Row="0"
+                                    Grid.Row="0" ToolTip="添加新模式按钮"
                                     Margin="0 0 28 -20"
                                     Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand"/>
                             </Grid>

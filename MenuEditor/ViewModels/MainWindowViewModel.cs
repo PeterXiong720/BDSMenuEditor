@@ -21,17 +21,20 @@ namespace MenuEditor.ViewModels
             this.workPath = Configuration.GetValue<string>("finallyopen");
             this.dataService = dataService;
 
+            TopMenu.OpenWorkSpace += onOpenWorkSpace;
             TopMenu.SaveData += onSaveData;
             TopMenu.NewProject += onNewProj;
 
             AddMenuCommand = new DelegateCommand<string>(new Action<string>(AddMenu));
             OpenDialogCommand = new DelegateCommand<string>(new Action<string>(OpenDialog));
 
+            TopMenu.ExportCommand = new DelegateCommand(new Action(ExportMenu));
+
             if (System.IO.Directory.Exists(this.workPath))
             {
                 MainWindowViewModel rawMenu = null;
                 rawMenu = dataService.LoadData<MainWindowViewModel>(workPath + "/src.menu");
-                load(rawMenu);
+                Load(rawMenu);
             }
         }
 
@@ -40,6 +43,34 @@ namespace MenuEditor.ViewModels
 
         [JsonIgnore]
         private string workPath;
+
+        private void onOpenWorkSpace()
+        {
+            var Dialog = new System.Windows.Forms.FolderBrowserDialog();
+            var result = Dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Dialog.SelectedPath);
+                if (di.GetFiles().Length == 0)
+                {
+                    //目录为空
+                }
+                foreach (var item in di.GetFiles())
+                {
+                    if (item.Name == "src.menu")
+                    {
+                        workPath = Dialog.SelectedPath;
+                        MainWindowViewModel rawMenu = null;
+                        rawMenu = dataService.LoadData<MainWindowViewModel>(item.FullName);
+                        Load(rawMenu);
+
+                        _ = Configuration.SaveValue("finallyopen", workPath);
+
+                        break;
+                    }
+                }
+            }
+        }
 
         private void onSaveData()
         {
@@ -82,7 +113,7 @@ namespace MenuEditor.ViewModels
             }
         }
 
-        private void load(MainWindowViewModel rawMenu)
+        private void Load(MainWindowViewModel rawMenu)
         {
             MenuCollection = rawMenu.MenuCollection;
             ModalCollection = rawMenu.ModalCollection;
@@ -98,6 +129,18 @@ namespace MenuEditor.ViewModels
                 var vmodel = item;
                 item.EditModalDialog = new Views.EditModalDialog(ref vmodel);
             }
+        }
+
+        private void ExportMenu()
+        {
+            if (TopMenu.SelectScript != null)
+            {
+                var ExportService = new ExportMenuService(
+                    TopMenu.SelectScript.FullName,
+                    TopMenu.ScriptDebug);
+                _ = ExportService.ExportMenuAsync(this);
+            }
+
         }
 
         private PageViewModel currentEditMenu;
@@ -164,7 +207,7 @@ namespace MenuEditor.ViewModels
         public string AddItemType
         {
             get => addType;
-            set => SetProperty(ref addType, value);
+            set => SetProperty(ref addType, value.Trim());
         }
 
         private string addName;
@@ -172,7 +215,7 @@ namespace MenuEditor.ViewModels
         public string AddItemName
         {
             get => addName;
-            set => SetProperty(ref addName, value);
+            set => SetProperty(ref addName, value.Trim());
         }
 
         [JsonIgnore]
