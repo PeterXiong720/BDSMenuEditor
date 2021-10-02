@@ -1,5 +1,4 @@
-﻿using MenuEditor.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,17 +16,13 @@ using System.Windows.Shapes;
 namespace MenuEditor.Views
 {
     /// <summary>
-    /// EditModalDialog.xaml 的交互逻辑
+    /// EditButton.xaml 的交互逻辑
     /// </summary>
-    public partial class EditModalDialog : UserControl
+    public partial class EditButton : UserControl
     {
-        public EditModalDialog(ref ViewModels.ModalDialogVewModel vmodel)
+        public EditButton()
         {
             InitializeComponent();
-            DataContext = vmodel;
-
-            //Btn1ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
-            //Btn2ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
         }
     }
 }

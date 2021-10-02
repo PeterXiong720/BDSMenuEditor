@@ -19,7 +19,7 @@
     <UserControl.Resources>
         
     </UserControl.Resources>
-    <Grid Margin="36">
+    <Grid Margin="36" MinHeight="260" MinWidth="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="5*" />
@@ -50,6 +50,11 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3"
                     Margin="0 16 0 0">
+            <ProgressBar
+                Style="{StaticResource MaterialDesignCircularProgressBar}"
+                Value="35"
+                Visibility="{Binding ProgressBarVisibility}"
+                IsIndeterminate="True" />
             <Button IsDefault="True"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 Command="{Binding ExportCommand}">

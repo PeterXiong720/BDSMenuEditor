@@ -37,13 +37,16 @@ function Button(model) {
     }
     if (model.Text) this.text = model.Text;
     this.cmd = new Array;
-    if (model.Execute != null && model.Execute != "") {
-        this.cmd.push(
-            {
-                command: model.Execute,
-                type: buttonType[model.Type]
-            }  
-        );
+    if (model.ButtonExecutes != null) {
+        for (const exe of model.ButtonExecutes) {
+            this.cmd.push(
+                {
+                    command: exe.Execute,
+                    type: buttonType[exe.Type]
+                }  
+            );
+        }
+        
     } 
 }
 
@@ -74,13 +77,16 @@ function ModalForm(model) {
     
         if (model.Text) this.text = model.Text;
         this.cmd = new Array;
-        if (model.Execute != null && model.Execute != "") {
-            this.cmd.push(
-                {
-                    command: model.Execute,
-                    type: buttonType[model.Type]
-                }  
-            );
+        if (model.ButtonExecutes != null) {
+            for (const exe of model.ButtonExecutes) {
+                this.cmd.push(
+                    {
+                        command: exe.Execute,
+                        type: buttonType[exe.Type]
+                    }  
+                );
+            }
+            
         } 
     }
 

@@ -118,6 +118,13 @@ namespace MenuEditor.ViewModels
             set => SetProperty(ref _SelectScriptDialogContent, value);
         }
 
+        private System.Windows.Visibility _ProgressBarVisibility = System.Windows.Visibility.Hidden;
+
+        public System.Windows.Visibility ProgressBarVisibility
+        {
+            get => _ProgressBarVisibility;
+            set => SetProperty(ref _ProgressBarVisibility, value);
+        }
 
         public DelegateCommand OpenCommand { get; set; }
         private void openWorkSpace()

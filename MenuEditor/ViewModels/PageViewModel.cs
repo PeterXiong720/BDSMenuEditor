@@ -49,9 +49,23 @@ namespace MenuEditor.ViewModels
         public Button SelectedItem
         {
             get => _SelectedItem;
-            set => SetProperty(ref _SelectedItem, value);
+            set
+            {
+                _ = SetProperty(ref _SelectedItem, value);
+                EditButtonContent = value.EditButtonContent;
+            }
         }
 
+        private Views.EditButton _EditButtonContent;
+        [JsonIgnore]
+        public Views.EditButton EditButtonContent
+        {
+            get => _EditButtonContent;
+            set
+            {
+                _ = SetProperty(ref _EditButtonContent, value);
+            }
+        }
 
         [JsonIgnore]
         public Views.EditMenu EditMenu { get; set; }
@@ -64,8 +78,7 @@ namespace MenuEditor.ViewModels
             {
                 Text = "",
                 Image = "",
-                Type = ButtonType.Command,
-                Execute = ""
+                ButtonExecutes = new() { }
             };
             Buttons.Add(btn);
         }

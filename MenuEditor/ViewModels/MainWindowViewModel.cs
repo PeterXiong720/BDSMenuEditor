@@ -116,6 +116,10 @@ namespace MenuEditor.ViewModels
 
         private void Load(MainWindowViewModel rawMenu)
         {
+            if (rawMenu == null)
+            {
+                rawMenu = new MainWindowViewModel();
+            }
             MenuCollection = rawMenu.MenuCollection;
             ModalCollection = rawMenu.ModalCollection;
 
@@ -140,7 +144,9 @@ namespace MenuEditor.ViewModels
                     TopMenu.SelectScript,
                     workPath,
                     TopMenu.ScriptDebug);
+                TopMenu.ProgressBarVisibility = System.Windows.Visibility.Visible;
                 ExportService.ExportMenu(this);
+                TopMenu.ProgressBarVisibility = System.Windows.Visibility.Hidden;
             }
 
         }
@@ -182,8 +188,6 @@ namespace MenuEditor.ViewModels
             get => editSpace;
             set => SetProperty(ref editSpace, value);
         }
-
-
 
         [JsonIgnore]
         public TopMenuViewModel TopMenu = new TopMenuViewModel();
@@ -233,7 +237,9 @@ namespace MenuEditor.ViewModels
             {
                 var menu = new PageViewModel()
                 {
-                    FileName = AddItemName
+                    FileName = AddItemName,
+                    Title = "",
+                    Content = ""
                 };
                 menu.EditMenu = new Views.EditMenu(ref menu);
                 MenuCollection.Add(menu);
@@ -242,7 +248,9 @@ namespace MenuEditor.ViewModels
             {
                 var menu = new ModalDialogVewModel()
                 {
-                    FileName = AddItemName
+                    FileName = AddItemName,
+                    Title = "",
+                    Content = ""
                 };
                 menu.EditModalDialog = new Views.EditModalDialog(ref menu);
                 ModalCollection.Add(menu);

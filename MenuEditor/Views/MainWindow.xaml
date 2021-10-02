@@ -17,7 +17,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         
         mc:Ignorable="d"
-        Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
+        Title="MenuEditor" Height="700" Width="1080" WindowStyle="SingleBorderWindow">
 
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding SelectScriptDialogViewModal.OpenCommand}"/>
@@ -37,7 +37,7 @@
         <materialDesign:DialogHost 
             IsOpen="{Binding SelectScriptDialogViewModal.IsDialogOpen}"
             DialogContent="{Binding SelectScriptDialogViewModal.SelectScriptDialogContent}"
-            CloseOnClickAway="True"
+            CloseOnClickAway="False"
             OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
             DialogTheme="Inherit">
         </materialDesign:DialogHost>
@@ -145,10 +145,10 @@
                                     </Grid.RowDefinitions>
 
                                     <ListBox 
-                                    x:Name="lbMenu"
-                                    ItemsSource="{Binding MenuCollection}" 
-                                    SelectedItem="{Binding CurrentEditMenu}"
-                                    LostFocus="onLbMenuLostFocus">
+                                        x:Name="lbMenu"
+                                        ItemsSource="{Binding MenuCollection}" 
+                                        SelectedItem="{Binding CurrentEditMenu}"
+                                        LostFocus="onLbMenuLostFocus">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Border
