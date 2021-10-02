@@ -75,19 +75,6 @@
                                     VerticalAlignment="Center"
                                     VerticalScrollBarVisibility="Auto"
                                     materialDesign:HintAssist.Hint="按钮文本" />
-                                <ComboBox Grid.Column="2" Margin="3"
-                                    Text="{Binding Type}"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                    VerticalAlignment="Center"
-                                    materialDesign:HintAssist.Hint="按钮类型"
-                                    ItemsSource="{Binding Types}">
-                                </ComboBox>
-                                <TextBox Grid.Column="3" Margin="3"
-                                    Text="{Binding Execute,UpdateSourceTrigger=PropertyChanged}"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    VerticalAlignment="Center"
-                                    VerticalScrollBarVisibility="Auto"
-                                    materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
 
                             </Grid>
                         </materialDesign:Card>
@@ -99,7 +86,7 @@
                 Command="{Binding AddButtonCommand}"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right" 
-                Margin="-20 0 28 68" ToolTip="添加新按钮"
+                Margin="-20 0 28 68"
                 Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand"/>
             <Button
                 Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
@@ -107,7 +94,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right" 
                 Margin="-20 0 28 18"
-                ToolTip="删除选中的项" Cursor="Hand">
+                ToolTip="MaterialDesignFloatingActionMiniDarkButton" Cursor="Hand">
                     <materialDesign:PackIcon Kind="Remove"/>
             </Button>
         </Grid>

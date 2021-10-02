@@ -48,9 +48,10 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="0.2*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="按钮1  " VerticalAlignment="Center"/>
                     <TextBox Grid.Column="1" Margin="3"
@@ -59,18 +60,10 @@
                         VerticalAlignment="Center"
                         VerticalScrollBarVisibility="Auto"
                         materialDesign:HintAssist.Hint="按钮文本" />
-                    <ComboBox Grid.Column="2" Margin="3" x:Name="Btn1ComboBox"
-                        Text="{Binding ButtonOne.Type}"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="按钮类型"/>
-                    <TextBox Grid.Column="3" Margin="3"
-                        Text="{Binding ButtonOne.Execute,UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                        VerticalAlignment="Center"
-                        VerticalScrollBarVisibility="Auto"
-                        materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
-                    
+                    <Button Grid.Column="3" Margin="3"
+                        >
+                        <TextBlock Text="命令菜单" VerticalAlignment="Center"/>
+                    </Button>
                 </Grid>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="4"
@@ -78,9 +71,10 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="0.2*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="按钮2  " VerticalAlignment="Center"/>
                     <TextBox Grid.Column="1" Margin="3"
@@ -89,18 +83,11 @@
                         VerticalAlignment="Center"
                         VerticalScrollBarVisibility="Auto"
                         materialDesign:HintAssist.Hint="按钮文本" />
-                    <ComboBox Grid.Column="2" Margin="3" x:Name="Btn2ComboBox"
-                        Text="{Binding ButtonTwo.Type}"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="按钮类型"/>
-                    <TextBox Grid.Column="3" Margin="3"
-                        Text="{Binding ButtonTwo.Execute,UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                        VerticalAlignment="Center"
-                        VerticalScrollBarVisibility="Auto"
-                        materialDesign:HintAssist.Hint="执行主体" Cursor="IBeam" />
-
+                    <Button Grid.Column="3" Margin="3"
+                        Command="{Binding AddButtonCommand}"
+                        VerticalAlignment="Center">
+                        <TextBlock Text="命令菜单" VerticalAlignment="Center"/>
+                    </Button>
                 </Grid>
             </materialDesign:Card>
         </Grid>

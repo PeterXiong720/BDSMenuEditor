@@ -13,12 +13,7 @@ namespace MenuEditor.Services
 {
     class ExportMenuService
     {
-        public ExportMenuService(FileInfo script, string wokdir, bool isDebug) : this(script.FullName, isDebug)
-        {
-            WorkDir = new DirectoryInfo(wokdir);
-        }
-
-        private ExportMenuService(string path, bool isDebug)
+        public ExportMenuService(string path, bool isDebug)
         {
             if (isDebug)
             {
@@ -44,50 +39,23 @@ namespace MenuEditor.Services
             ScriptEngine.AddHostObject("dotnet", new HostTypeCollection("mscorlib", "System"));
         }
 
-        ~ExportMenuService()
-        {
-            ScriptEngine = null;
-        }
-
-        private V8ScriptEngine ScriptEngine;
+        private readonly V8ScriptEngine ScriptEngine;
 
         private string ScriptCode;
 
-        public DirectoryInfo WorkDir;
-
-        public void ExportMenu(MainWindowViewModel model)
+        public async Task ExportMenuAsync(MainWindowViewModel model)
         {
             if (model == null)
             {
                 return;
             }
 
-            var HostData = new
-            {
-                Menus = JsonConvert.SerializeObject(model.MenuCollection.ToList()),
-                Modals = JsonConvert.SerializeObject(model.ModalCollection.ToList())
-            };
-            ScriptEngine.AddHostObject("DATA", HostData);
-            ScriptEngine.AddHostObject("DIRECTORY", WorkDir);
-
-            ScriptEngine.AddHostTypes(
-                typeof(System.Windows.MessageBox),
-                typeof(System.Windows.MessageBoxButton),
-                typeof(System.Windows.MessageBoxImage));
-
-            try
+            ScriptEngine.AddHostObject("MENUS", model.MenuCollection.ToList());
+            ScriptEngine.AddHostObject("MODALS", model.ModalCollection.ToList());
+            await Task.Run(() =>
             {
                 ScriptEngine.Execute(ScriptCode);
-            }
-            catch (Exception e)
-            {
-                System.Windows.MessageBox.Show(
-                    e.ToString(),
-                    "脚本执行出错",
-                    System.Windows.MessageBoxButton.OK,
-                    System.Windows.MessageBoxImage.Error);
-                //throw;
-            }
+            });
         }
     }
 }

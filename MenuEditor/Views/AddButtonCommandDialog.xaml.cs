@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MenuEditor.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace MenuEditor.Views
 {
     /// <summary>
-    /// AddItemDialog.xaml 的交互逻辑
+    /// AddButtonCommandDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class AddItemDialog : UserControl
+    public partial class AddButtonCommandDialog : UserControl
     {
-        public AddItemDialog()
+        public AddButtonCommandDialog(ref Command vmodel)
         {
             InitializeComponent();
+            DataContext = vmodel;
         }
     }
 }

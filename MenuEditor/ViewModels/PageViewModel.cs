@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using System.Windows;
+using MenuEditor.Views;
 
 namespace MenuEditor.ViewModels
 {
@@ -49,28 +51,29 @@ namespace MenuEditor.ViewModels
         public Button SelectedItem
         {
             get => _SelectedItem;
-            set => SetProperty(ref _SelectedItem, value);
+            set
+            {
+                SetProperty(ref _SelectedItem, value);
+                DoubleClicked();
+            }
         }
 
 
         [JsonIgnore]
-        public Views.EditMenu EditMenu { get; set; }
+        public EditMenu EditMenu { get; set; }
 
-        [JsonIgnore]
         public DelegateCommand AddButtonCommand { get; set; }
         private void AddButton()
         {
             var btn = new Button()
             {
                 Text = "",
-                Image = "",
-                Type = ButtonType.Command,
-                Execute = ""
+                Image = null,
+                Cmd = new ObservableCollection<Command>()
             };
             Buttons.Add(btn);
         }
 
-        [JsonIgnore]
         public DelegateCommand RemoveButtonCommand { get; set; }
         private void RemoveButton()
         {
@@ -82,7 +85,26 @@ namespace MenuEditor.ViewModels
                 }
                 catch
                 {
+                    throw;
                 }
+            }
+        }
+
+        private int i = 0;
+
+        private void DoubleClicked()
+        {
+            i += 1;
+            System.Timers.Timer t = new System.Timers.Timer(600);
+            t.Interval = 600;
+
+            t.Elapsed += (s, ee) => { t.Enabled = false; i = 0; };
+            t.Enabled = true;
+            if (i % 2 == 0)
+            {
+                t.Enabled = false;
+                
+                i = 0;
             }
         }
     }

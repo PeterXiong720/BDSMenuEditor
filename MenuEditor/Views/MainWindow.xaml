@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MenuEditor"
         xmlns:viewmodels="clr-namespace:MenuEditor.ViewModels" 
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=System.Runtime"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -17,32 +16,13 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         
         mc:Ignorable="d"
-        Title="MenuEditor" Height="600" Width="880" WindowStyle="SingleBorderWindow">
-
-    <Window.InputBindings>
-        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding SelectScriptDialogViewModal.OpenCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="K" Command="{Binding SelectScriptDialogViewModal.NewCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SelectScriptDialogViewModal.SaveCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="B" Command="{Binding SelectScriptDialogViewModal.SelectScriptDialogCommand}"/>
-    </Window.InputBindings>
+        Title="MenuEditor" Height="600" Width="1200" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.SaveCommand}" Executed="onSaveData"/>
+        <CommandBinding Command="{x:Static local:MainWindow.NewCommand}" Executed="onNewProj"/>
+    </Window.CommandBindings>
     <Grid>
-        <MediaElement Name="Bgm" 
-                      Source="http://webfs.ali.kugou.com/202110020634/3b5d0eb1504fc57e891dfa8f1e12c937/G106/M04/0A/00/CocBAFnJu7mAPJwkAELQhpDsKdU759.mp3"
-                      Volume="0.1">
-            <MediaElement.OpacityMask>
-                <ImageBrush/>
-            </MediaElement.OpacityMask>
-        </MediaElement>
-        
-        <materialDesign:DialogHost 
-            IsOpen="{Binding SelectScriptDialogViewModal.IsDialogOpen}"
-            DialogContent="{Binding SelectScriptDialogViewModal.SelectScriptDialogContent}"
-            CloseOnClickAway="True"
-            OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
-            DialogTheme="Inherit">
-        </materialDesign:DialogHost>
-        
-        <DockPanel LastChildFill="True">
+        <DockPanel>
             <Menu x:Name="TopMenu"
                 d:DataContext="{Binding TopMenu}"
                 DockPanel.Dock="Top" 
@@ -52,12 +32,11 @@
                 <MenuItem Header="_文件">
                     <MenuItem
                         Header="打开"
-                        InputGestureText="Ctrl+O"
-                        Command="{Binding OpenCommand}"/>
+                        InputGestureText="Ctrl+O"/>
 
                     <MenuItem
                         Header="新建"
-                        InputGestureText="Ctrl+K"
+                        InputGestureText="Ctrl+K+O"
                         Command="{Binding NewCommand}"/>
 
                     <Separator/>
@@ -69,7 +48,12 @@
                         Command="{Binding SaveCommand}">
                     </MenuItem>
 
-                    <MenuItem Header="关闭"
+                    <MenuItem
+                        Header="关闭"
+                        InputGestureText="Ctrl+E"
+                        Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>
+
+                    <MenuItem Header="关闭编辑器"
                         InputGestureText="Alt+F4"/>
 
                     <Separator/>
@@ -82,20 +66,7 @@
 
                 <MenuItem Header="_导出">
                     <MenuItem
-                        Header="_导出"
-                        Icon="{materialDesign:PackIcon Kind=ExportVariant}"
-                        InputGestureText="Ctrl+B"
-                        Command="{Binding SelectScriptDialogCommand}">
-                    </MenuItem>
-                    <MenuItem
-                        Header="_选择导出格式"
-                        Icon="{materialDesign:PackIcon Kind=Select}"
-                        Command="{Binding SelectScriptDialogCommand}">
-                    </MenuItem>
-                    <MenuItem
-                        Header="调试"
-                        IsCheckable="True"
-                        IsChecked="{Binding ScriptDebug,Mode=TwoWay}"/>
+                        Header="_导出"/>
                 </MenuItem>
 
                 <MenuItem Header="_帮助">
@@ -116,7 +87,7 @@
                 Style="{StaticResource MaterialDesignNavigatilRailTabControl}" 
                 materialDesign:ColorZoneAssist.Mode="Standard"
                 materialDesign:ShadowAssist.ShadowDepth="Depth0">
-                
+
                 <TabItem >
                     <TabItem.Header>
                         <StackPanel Height="auto" Width="auto">
@@ -132,7 +103,7 @@
                             CloseOnClickAway="True"
                             OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
                             DialogTheme="Inherit">
-                            
+
                             <Border
                             BorderThickness="1"
                             BorderBrush="{DynamicResource PrimaryHueMidBrush}"
@@ -169,7 +140,7 @@
                                     Grid.Row="1"
                                     Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                         <TextBlock
-                                        Margin="16"
+                                        Margin="20"
                                         Text="标准菜单"/>
                                     </materialDesign:ColorZone>
 
@@ -177,11 +148,10 @@
                                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                         Command="{Binding OpenDialogCommand}"
                                         CommandParameter="menu"
-                                        VerticalAlignment="Bottom"
-                                        HorizontalAlignment="Right" 
-                                        Grid.Row="0" ToolTip="添加新菜单"
-                                        Margin="0 0 28 -20"
-                                        Content="{materialDesign:PackIcon Kind=Plus, Size=22}"/>
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="128,5,0,0"
+                                        Content="{materialDesign:PackIcon Kind=Plus, Size=22}" RenderTransformOrigin="0.936,1.129" Grid.Row="1"/>
                                 </Grid>
                             </Border>
                         </materialDesign:DialogHost>
@@ -209,62 +179,62 @@
                             BorderBrush="{DynamicResource PrimaryHueMidBrush}"
                             MinHeight="256"
                             ClipToBounds="True">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <ListBox 
+                                    <ListBox 
                                     x:Name="lbModal"
                                     ItemsSource="{Binding ModalCollection}" 
                                     SelectedItem="{Binding CurrentEditModal}"
                                     LostFocus="onLbModalLostFocus">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
                                                 x:Name="Border"
                                                 Padding="8"
                                                 BorderThickness="0 0 0 1"
                                                 BorderBrush="{DynamicResource MaterialDesignDivider}">
-                                                <Grid Width="180">
-                                                    <TextBlock Text="{Binding FileName,Mode=TwoWay}"/>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                                    <Grid Width="180">
+                                                        <TextBlock Text="{Binding FileName,Mode=TwoWay}"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
 
-                                <materialDesign:ColorZone
+                                    <materialDesign:ColorZone
                                     Mode="PrimaryMid"
                                     Grid.Row="1"
                                     Effect="{DynamicResource MaterialDesignShadowDepth5}">
-                                    <TextBlock
+                                        <TextBlock
                                         Margin="16"
                                         Text="模式对话框"/>
-                                </materialDesign:ColorZone>
+                                    </materialDesign:ColorZone>
 
-                                <Button
+                                    <Button
                                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                     Command="{Binding OpenDialogCommand}"
                                     CommandParameter="modal"
                                     VerticalAlignment="Bottom"
                                     HorizontalAlignment="Right" 
-                                    Grid.Row="0" ToolTip="添加新模式按钮"
-                                    Margin="0 0 28 -20"
-                                    Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand"/>
-                            </Grid>
-                        </Border>
+                                    Grid.Row="0"
+                                    Margin="0,0,10,7"
+                                    Content="{materialDesign:PackIcon Kind=Plus, Size=22}" Cursor="Hand" Grid.RowSpan="2"/>
+                                </Grid>
+                            </Border>
                         </materialDesign:DialogHost>
-
-
-                        
                     </Grid>
                 </TabItem>
 
             </TabControl>
             <Grid DockPanel.Dock="Top">
-                <ContentControl Content="{Binding EditSpace}"></ContentControl>
+                <ContentControl Content="{Binding EditSpace}" Margin="0,0,315,-536.75"></ContentControl>
+            </Grid>
+            <Grid Margin="633,0,0,0" Background="#3C3C3C">
+                <ContentControl Content="{Binding CmdSpace}" Margin="633,0,0,0" Background="#FF515151"></ContentControl>
             </Grid>
         </DockPanel>
     </Grid>

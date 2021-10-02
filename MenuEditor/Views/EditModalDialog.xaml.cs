@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static MenuEditor.ViewModels.Command;
 
 namespace MenuEditor.Views
 {
@@ -21,13 +22,10 @@ namespace MenuEditor.Views
     /// </summary>
     public partial class EditModalDialog : UserControl
     {
-        public EditModalDialog(ref ViewModels.ModalDialogVewModel vmodel)
+        public EditModalDialog(ref ModalDialogVewModel vmodel)
         {
             InitializeComponent();
             DataContext = vmodel;
-
-            Btn1ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
-            Btn2ComboBox.ItemsSource = System.Enum.GetNames(typeof(ButtonType));
         }
     }
 }
