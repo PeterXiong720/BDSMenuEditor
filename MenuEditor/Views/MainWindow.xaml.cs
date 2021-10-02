@@ -22,12 +22,17 @@ namespace MenuEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RoutedCommand SaveCommand = new RoutedCommand();
+        public static RoutedCommand NewCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
             var viewmodel = new MainWindowViewModel(new JsonDataService());
-            this.DataContext = viewmodel;
-            this.TopMenu.DataContext = viewmodel.TopMenu;
+            DataContext = viewmodel;
+            TopMenu.DataContext = viewmodel.TopMenu;
+            SaveCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            NewCommand.InputGestures.Add(new KeyGesture(Key.K, ModifierKeys.Control));
         }
 
         private void onLbMenuLostFocus(object sender, RoutedEventArgs e)
@@ -38,6 +43,18 @@ namespace MenuEditor
         private void onLbModalLostFocus(object sender, RoutedEventArgs e)
         {
             lbModal.SelectedItem = null;
+        }
+
+        private void onSaveData(object sender, ExecutedRoutedEventArgs e)
+        {
+            var model = new MainWindowViewModel(new JsonDataService());
+            model.onSaveData();
+        }
+
+        private void onNewProj(object sender, ExecutedRoutedEventArgs e)
+        {
+            var model = new MainWindowViewModel(new JsonDataService());
+            model.onNewProj();
         }
     }
 }

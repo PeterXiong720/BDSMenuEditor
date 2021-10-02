@@ -33,10 +33,6 @@ namespace MenuEditor.ViewModels
             SaveCommand = new DelegateCommand(new Action(saveData));
             NewCommand = new DelegateCommand(new Action(newProj));
 
-            SelectScriptDialogContent.DataContext = this;
-            SelectScriptDialogCommand = new DelegateCommand(new Action(SelectScriptDialog));
-            CloseSelectScriptDialogCommand = new DelegateCommand(new Action(CloseSelectScriptDialog));
-
             var dir = new DirectoryInfo("./Script");
             foreach (FileInfo item in dir.GetFiles())
             {
@@ -102,23 +98,6 @@ namespace MenuEditor.ViewModels
             set => SetProperty(ref debug, value);
         }
 
-        private bool _IsDialogOpen = false;
-
-        public bool IsDialogOpen
-        {
-            get => _IsDialogOpen;
-            set => SetProperty(ref _IsDialogOpen, value);
-        }
-
-        private Views.SelectScriptDialog _SelectScriptDialogContent = new() { };
-
-        public Views.SelectScriptDialog SelectScriptDialogContent
-        {
-            get => _SelectScriptDialogContent;
-            set => SetProperty(ref _SelectScriptDialogContent, value);
-        }
-
-
         public DelegateCommand OpenCommand { get; set; }
         private void openWorkSpace()
         {
@@ -147,17 +126,5 @@ namespace MenuEditor.ViewModels
         }
 
         public DelegateCommand ExportCommand { get; set; }
-
-        public DelegateCommand SelectScriptDialogCommand { get; set; }
-        private void SelectScriptDialog()
-        {
-            IsDialogOpen = true;
-        }
-
-        public DelegateCommand CloseSelectScriptDialogCommand { get; set; }
-        private void CloseSelectScriptDialog()
-        {
-            IsDialogOpen = false;
-        }
     }
 }

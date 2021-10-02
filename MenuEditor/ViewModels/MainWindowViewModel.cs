@@ -21,21 +21,17 @@ namespace MenuEditor.ViewModels
             workPath = Configuration.GetValue<string>("finallyopen");
             this.dataService = dataService;
 
-            TopMenu.OpenWorkSpace += onOpenWorkSpace;
             TopMenu.SaveData += onSaveData;
             TopMenu.NewProject += onNewProj;
 
             AddMenuCommand = new DelegateCommand<string>(new Action<string>(AddMenu));
             OpenDialogCommand = new DelegateCommand<string>(new Action<string>(OpenDialog));
 
-            TopMenu.ExportCommand = new DelegateCommand(new Action(ExportMenu));
-            SelectScriptDialogViewModal = TopMenu;
-
-            if (System.IO.Directory.Exists(this.workPath))
+            if (System.IO.Directory.Exists(workPath))
             {
                 MainWindowViewModel rawMenu = null;
                 rawMenu = dataService.LoadData<MainWindowViewModel>(workPath + "/src.menu");
-                Load(rawMenu);
+                load(rawMenu);
             }
         }
 
@@ -45,35 +41,7 @@ namespace MenuEditor.ViewModels
         [JsonIgnore]
         private string workPath;
 
-        private void onOpenWorkSpace()
-        {
-            var Dialog = new System.Windows.Forms.FolderBrowserDialog();
-            var result = Dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Dialog.SelectedPath);
-                if (di.GetFiles().Length == 0)
-                {
-                    //目录为空
-                }
-                foreach (var item in di.GetFiles())
-                {
-                    if (item.Name == "src.menu")
-                    {
-                        workPath = Dialog.SelectedPath;
-                        MainWindowViewModel rawMenu = null;
-                        rawMenu = dataService.LoadData<MainWindowViewModel>(item.FullName);
-                        Load(rawMenu);
-
-                        _ = Configuration.SaveValue("finallyopen", workPath);
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void onSaveData()
+        public void onSaveData()
         {
             if (!System.IO.Directory.Exists(workPath))
             {
@@ -86,7 +54,7 @@ namespace MenuEditor.ViewModels
                     if (di.GetFiles().Length + di.GetDirectories().Length == 0)
                     {
                         //目录为空
-                        this.workPath = Dialog.SelectedPath;
+                        workPath = Dialog.SelectedPath;
                         _ = dataService.SaveData(workPath + "/src.menu", this);
                     }
                 }
@@ -97,7 +65,7 @@ namespace MenuEditor.ViewModels
             }
         }
 
-        private void onNewProj()
+        public void onNewProj()
         {
             var Dialog = new System.Windows.Forms.FolderBrowserDialog();
             Dialog.Description = "文件夹必须为空";
@@ -108,13 +76,13 @@ namespace MenuEditor.ViewModels
                 if (di.GetFiles().Length + di.GetDirectories().Length == 0)
                 {
                     //目录为空
-                    this.workPath = Dialog.SelectedPath;
+                    workPath = Dialog.SelectedPath;
                     _ = dataService.SaveData(workPath + "/src.menu", this);
                 }
             }
         }
 
-        private void Load(MainWindowViewModel rawMenu)
+        private void load(MainWindowViewModel rawMenu)
         {
             MenuCollection = rawMenu.MenuCollection;
             ModalCollection = rawMenu.ModalCollection;
@@ -130,19 +98,6 @@ namespace MenuEditor.ViewModels
                 var vmodel = item;
                 item.EditModalDialog = new Views.EditModalDialog(ref vmodel);
             }
-        }
-
-        private void ExportMenu()
-        {
-            if (TopMenu.SelectScript != null)
-            {
-                var ExportService = new ExportMenuService(
-                    TopMenu.SelectScript,
-                    workPath,
-                    TopMenu.ScriptDebug);
-                ExportService.ExportMenu(this);
-            }
-
         }
 
         private PageViewModel currentEditMenu;
@@ -174,6 +129,20 @@ namespace MenuEditor.ViewModels
                 }
             }
         }
+        private Command currentButton;
+        [JsonIgnore]
+        public Command CurrentButton
+        {
+            get => currentButton;
+            set
+            {
+                _ = SetProperty(ref currentButton, value);
+                if (value != null)
+                {
+                    CmdSpace = value.AddButtonCommand;
+                }
+            }
+        }
 
         private UserControl editSpace;
         [JsonIgnore]
@@ -183,6 +152,13 @@ namespace MenuEditor.ViewModels
             set => SetProperty(ref editSpace, value);
         }
 
+        private UserControl cmdSpace;
+        [JsonIgnore]
+        public UserControl CmdSpace
+        {
+            get => cmdSpace;
+            set => SetProperty(ref cmdSpace, value);
+        }
 
 
         [JsonIgnore]
@@ -209,7 +185,7 @@ namespace MenuEditor.ViewModels
         public string AddItemType
         {
             get => addType;
-            set => SetProperty(ref addType, value.Trim());
+            set => SetProperty(ref addType, value);
         }
 
         private string addName;
@@ -217,13 +193,11 @@ namespace MenuEditor.ViewModels
         public string AddItemName
         {
             get => addName;
-            set => SetProperty(ref addName, value.Trim());
+            set => SetProperty(ref addName, value);
         }
 
         [JsonIgnore]
         public AddItemDialogViewModel DialogViewModel { get; set; } = new() { };
-        [JsonIgnore]
-        public TopMenuViewModel SelectScriptDialogViewModal { get; set; }
 
         [JsonIgnore]
         public DelegateCommand<string> AddMenuCommand { get; set; }

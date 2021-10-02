@@ -21,12 +21,10 @@ namespace MenuEditor.Views
     /// </summary>
     public partial class EditMenu : UserControl
     {
-        public EditMenu(ref ViewModels.PageViewModel vmodel)
+        public EditMenu(ref PageViewModel vmodel)
         {
             InitializeComponent();
             DataContext = vmodel;
         }
-
-        public string[] ButtonTypes = System.Enum.GetNames(typeof(ButtonType));
     }
 }

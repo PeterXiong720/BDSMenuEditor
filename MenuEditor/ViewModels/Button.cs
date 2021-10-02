@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,11 @@ namespace MenuEditor.ViewModels
 
         }
 
-        public Button(string text, string image = "", ButtonType type = ButtonType.Command, string execute = "")
+        public Button(string text, string image = null, ObservableCollection<Command> cmd = null)
         {
             Text = text;
             Image = image;
-            Type = type;
-            Execute = execute;
+            Cmd = cmd;
         }
 
         private string text;
@@ -39,41 +39,12 @@ namespace MenuEditor.ViewModels
             set => SetProperty(ref image, value);
         }
 
-        private ButtonType type;
+        private ObservableCollection<Command> cmd;
 
-        public ButtonType Type
+        public ObservableCollection<Command> Cmd
         {
-            get => type;
-            set => SetProperty(ref type, value);
+            get => cmd;
+            set => SetProperty(ref cmd, value);
         }
-
-        private string execute;
-
-        public string Execute
-        {
-            get => execute;
-            set => SetProperty(ref execute, value);
-        }
-
-        private string[] types = System.Enum.GetNames(typeof(ButtonType));
-        [JsonIgnore]
-        public string[] Types
-        {
-            get => types;
-            set => SetProperty(ref types, value);
-        }
-
-    }
-
-    public enum ButtonType
-    {
-        Command,
-        OperatorCommand,
-        RequireOpCommand,
-        Console,
-        JavaScriptCode,
-        JavaScriptFile,
-        Menu,
-        AdministratorMenu
     }
 }
