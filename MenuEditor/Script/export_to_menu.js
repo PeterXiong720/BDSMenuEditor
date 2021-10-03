@@ -128,4 +128,9 @@ function main(args) {
         "导出完成",
         MessageBoxButton.OK,
         MessageBoxImage.Information);
+    
+    var p = new System.Diagnostics.Process();
+    p.StartInfo.FileName = "explorer.exe";
+    p.StartInfo.Arguments = path;
+    p.Start();
 }
